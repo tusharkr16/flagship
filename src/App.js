@@ -1,10 +1,9 @@
-import './App.css';
-
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 function App() {
   const [countries, setCountries] = useState([]);
+  const [error, setError] = useState(null);
 
   const fetchData = async () => {
     try {
@@ -15,16 +14,18 @@ function App() {
       }));
       setCountries(countriesData);
     } catch (error) {
-      console.log(error);
+      setError(error); // Set error state to trigger console log
+      console.error(error); // Log error to console
     }
   };
 
   useEffect(() => {
     fetchData();
   }, []);
+
   return (
     <div className="App">
-
+      {error && <div>Error: {error.message}</div>}
       <div className='flex flex-wrap justify-center'>
         {countries.map((country, index) => (
           <div className='border rounded-lg m-1 mt-5 mb-5 me-3 ms-3 p-5' key={index} style={{ flex: '1 0 14%', textAlign: 'center' }}>
