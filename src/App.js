@@ -29,7 +29,7 @@ function App() {
         {countries.map((country, index) => (
           <div className='border rounded-lg m-1 mt-5 mb-5 me-3 ms-3 p-5' key={index} style={{ flex: '1 0 14%', textAlign: 'center' }}>
             <img src={country.flag} alt={`Flag ${index}`} style={{ width: '100%' }} />
-            <p className='text-xl'>{country.name}</p>
+            <h3 className='text-xl'>{country.name}</h3>
           </div>
         ))}
       </div>
