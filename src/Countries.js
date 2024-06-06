@@ -1,29 +1,50 @@
-// import React, { useEffect, useState } from 'react';
-// import axios from 'axios';
+import { useEffect, useState } from "react"
 
-// const Countries = () => {
-//     const [countries, setCountries] = useState([]);
+const CountryCard = ({ name, flagimg, flagaltText }) => {
+    return (
+        <div style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+            alignItems: 'center',
+            flexDirection: 'column',
+            padding: '10px',
+            margin: '10px',
+            border: '1px solid black',
+            borderRadius: '8px',
+            width: '200px',
+            height: '200px',
 
-//     const fetchData = async () => {
-//         try {
-//             const { data } = await axios.get('https://restcountries.com/v3.1/all');
-//             const countriesData = data.map(country => ({
-//                 name: country.name.common,
-//                 flag: country.flags.svg
-//             }));
-//             setCountries(countriesData);
-//         } catch (error) {
-//             console.log(error);
-//         }
-//     };
+        }}>
+            <img src={flagimg} alt={flagaltText} style={{
+                width: '100px',
+                height: '100px',
+            }} />
+            <h2>{name}</h2>
+        </div>
+    )
+}
 
-//     useEffect(() => {
-//         fetchData();
-//     }, []);
+function Countries() {
+    const API = 'https://restcountries.com/v3.1/all'
+    const [countries, setCountries] = useState([])
+    useEffect(() => {
+        fetch(API)
+            .then(res => res.json())
+            .then((data) => setCountries(data))
+            .catch((err) => console.log("Error:", err))
+    }, [])
+    return (
+        <div style={{
+            display: 'flex', flexWrap: 'wrap', justifyContent: 'center',
+            alignItems: 'center', height: '100vh'
+        }}>
+            {countries.map((country) => (
+                <CountryCard name={country.name.common} flagimg={country.flags.png} flagaltText={country.flags.alt} />
+            ))}
 
-//     return (
+        </div>
+    )
+}
 
-//     );
-// };
-
-// export default Countries;
+export default Countries;
