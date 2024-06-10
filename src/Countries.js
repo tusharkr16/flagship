@@ -18,7 +18,7 @@ const CountryCard = ({ name, flagimg, flagaltText }) => {
         >
             <img
                 src={flagimg}
-                alt={flagaltText}
+                alt={flagaltText || `Flag of ${name}`}
                 style={{
                     width: "100px",
                     height: "100px",
@@ -29,22 +29,38 @@ const CountryCard = ({ name, flagimg, flagaltText }) => {
     );
 };
 
-
 function Countries() {
     const API = "https://restcountries.com/v3.1/all";
     const [countries, setCountries] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         fetch(API)
             .then((res) => res.json())
-            .then((data) => setCountries(data))
-            .catch((err) => console.log("Error:", err));
+            .then((data) => {
+                setCountries(data);
+                setLoading(false);
+            })
+            .catch((err) => {
+                console.error("Error fetching countries:", err);
+                setError(err);
+                setLoading(false);
+            });
     }, []);
 
     const filteredCountries = countries.filter(country =>
         country.name.common.toLowerCase().includes(searchQuery.toLowerCase())
     );
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    if (error) {
+        return <div>Error loading countries.</div>;
+    }
 
     return (
         <div
@@ -74,14 +90,18 @@ function Countries() {
                     onChange={(e) => setSearchQuery(e.target.value)}
                 />
             </div>
-            {filteredCountries.map((country, index) => (
-                <CountryCard
-                    key={index}
-                    name={country.name.common}
-                    flagimg={country.flags.png}
-                    flagaltText={country.flags.alt}
-                />
-            ))}
+            {filteredCountries.length > 0 ? (
+                filteredCountries.map((country, index) => (
+                    <CountryCard
+                        key={index}
+                        name={country.name.common}
+                        flagimg={country.flags.png}
+                        flagaltText={country.flags.alt}
+                    />
+                ))
+            ) : (
+                <div>No countries found.</div>
+            )}
         </div>
     );
 }
