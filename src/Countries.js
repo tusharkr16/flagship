@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 const CountryCard = ({ name, flagimg, flagaltText }) => {
     return (
         <div
+            className="countryCard"
             style={{
                 display: "flex",
                 flexDirection: "column",
@@ -27,6 +28,7 @@ const CountryCard = ({ name, flagimg, flagaltText }) => {
         </div>
     );
 };
+
 
 function Countries() {
     const API = "https://restcountries.com/v3.1/all";
@@ -58,6 +60,7 @@ function Countries() {
                 <input
                     type="text"
                     placeholder="Search for countries"
+                    className="search-input"
                     style={{
                         display: "block",
                         width: "50%",
