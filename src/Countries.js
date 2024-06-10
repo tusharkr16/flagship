@@ -18,7 +18,7 @@ const CountryCard = ({ name, flagimg, flagaltText }) => {
         >
             <img
                 src={flagimg}
-                alt={flagaltText || `Flag of ${name}`}
+                alt={flagaltText}
                 style={{
                     width: "100px",
                     height: "100px",
@@ -29,60 +29,37 @@ const CountryCard = ({ name, flagimg, flagaltText }) => {
     );
 };
 
+
 function Countries() {
     const API = "https://restcountries.com/v3.1/all";
     const [countries, setCountries] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
 
     useEffect(() => {
         fetch(API)
             .then((res) => res.json())
-            .then((data) => {
-                setCountries(data);
-                setLoading(false);
-            })
-            .catch((err) => {
-                console.error("Error fetching countries:", err);
-                setError(err);
-                setLoading(false);
-            });
+            .then((data) => setCountries(data))
+            .catch((err) => console.log("Error:", err));
     }, []);
 
     const filteredCountries = countries.filter(country =>
         country.name.common.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-    if (loading) {
-        return <div>Loading...</div>;
-    }
-
-    if (error) {
-        return <div>Error loading countries.</div>;
-    }
-
     return (
-        <div
-            style={{
-                display: "flex",
-                flexWrap: "wrap",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "100vh",
-            }}
-        >
-            <div style={{ display: "block", width: "100%" }}>
+        <>
+            <div style={{ display: "flex", width: "100%", justifyContent: "center", alignItems: "center" }}>
                 <input
                     type="text"
                     placeholder="Search for countries"
                     className="search-input"
                     style={{
-                        display: "block",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
                         width: "50%",
                         height: "40px",
-                        marginTop: "40px",
-                        margin: "auto",
+                        marginTop: "20px",
                         padding: "10px",
                         border: "2px solid gray"
                     }}
@@ -90,19 +67,26 @@ function Countries() {
                     onChange={(e) => setSearchQuery(e.target.value)}
                 />
             </div>
-            {filteredCountries.length > 0 ? (
-                filteredCountries.map((country, index) => (
+
+            <div
+                style={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "100vh",
+                }}
+            >
+                {filteredCountries.map((country, index) => (
                     <CountryCard
                         key={index}
                         name={country.name.common}
                         flagimg={country.flags.png}
                         flagaltText={country.flags.alt}
                     />
-                ))
-            ) : (
-                <div></div>
-            )}
-        </div>
+                ))}
+            </div>
+        </>
     );
 }
 
