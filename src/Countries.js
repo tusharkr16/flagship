@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const CountryCard = ({ name, flagimg, flagaltText }) => {
     return (
         <div
             style={{
                 display: "flex",
-                flexDirection: "column", // Apply flex direction vertically
-                alignItems: "center", // Center items horizontally
+                flexDirection: "column",
+                alignItems: "center",
                 padding: "10px",
                 margin: "10px",
                 border: "1px solid black",
@@ -23,7 +23,7 @@ const CountryCard = ({ name, flagimg, flagaltText }) => {
                     height: "100px",
                 }}
             />
-            <h2 className="text-2xl mt-2">{name}</h2> {/* Add class directly */}
+            <h2 className="text-2xl mt-2">{name}</h2>
         </div>
     );
 };
@@ -31,12 +31,19 @@ const CountryCard = ({ name, flagimg, flagaltText }) => {
 function Countries() {
     const API = "https://restcountries.com/v3.1/all";
     const [countries, setCountries] = useState([]);
+    const [searchQuery, setSearchQuery] = useState('');
+
     useEffect(() => {
         fetch(API)
             .then((res) => res.json())
             .then((data) => setCountries(data))
             .catch((err) => console.log("Error:", err));
     }, []);
+
+    const filteredCountries = countries.filter(country =>
+        country.name.common.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
     return (
         <div
             style={{
@@ -47,9 +54,26 @@ function Countries() {
                 height: "100vh",
             }}
         >
-            {countries.map((country, index) => (
+            <div style={{ display: "block", width: "100%" }}>
+                <input
+                    type="text"
+                    placeholder="Search for countries"
+                    style={{
+                        display: "block",
+                        width: "50%",
+                        height: "40px",
+                        marginTop: "40px",
+                        margin: "auto",
+                        padding: "10px",
+                        border: "2px solid gray"
+                    }}
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                />
+            </div>
+            {filteredCountries.map((country, index) => (
                 <CountryCard
-                    key={index} // Add a unique key to each CountryCard
+                    key={index}
                     name={country.name.common}
                     flagimg={country.flags.png}
                     flagaltText={country.flags.alt}
