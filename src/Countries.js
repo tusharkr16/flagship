@@ -100,7 +100,7 @@ function Countries() {
                     />
                 ))
             ) : (
-                <div>No countries found.</div>
+                <div></div>
             )}
         </div>
     );
