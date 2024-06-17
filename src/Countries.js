@@ -48,25 +48,30 @@ function Countries() {
 
     return (
         <>
-            <div style={{ display: "flex", width: "100%", justifyContent: "center", alignItems: "center" }}>
-                <input
-                    type="text"
-                    placeholder="Search for countries"
-                    className="search-input"
-                    style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        width: "50%",
-                        height: "40px",
-                        marginTop: "20px",
-                        padding: "10px",
-                        border: "2px solid gray"
-                    }}
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                />
-            </div>
+            <nav style={{ width: "100%", boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}>
+
+
+
+                <div style={{ display: "flex", width: "100%", justifyContent: "center", alignItems: "center", marginBottom: "20px" }}>
+                    <input
+                        type="text"
+                        placeholder="Search for countries"
+                        className="search-input"
+                        style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            width: "50%",
+                            height: "40px",
+                            marginTop: "5px",
+                            padding: "10px",
+                            border: "2px solid gray"
+                        }}
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                    />
+                </div>
+            </nav>
 
             <div
                 style={{
