@@ -39,7 +39,7 @@ function Countries() {
         fetch(API)
             .then((res) => res.json())
             .then((data) => setCountries(data))
-            .catch((err) => console.log("Error:", err));
+            .catch((err) => console.log(err));
     }, []);
 
     const filteredCountries = countries.filter(country =>
@@ -84,6 +84,7 @@ function Countries() {
             >
                 {filteredCountries.map((country, index) => (
                     <CountryCard
+                        className="CountryCard"
                         key={index}
                         name={country.name.common}
                         flagimg={country.flags.png}
